@@ -9,22 +9,29 @@ def parse_input(user_input):
 
 
 def find_by_tag(args):
-    tag = args[0]
-    quotes = Quotes.objects(tags__iregex=tag)
-    print(quotes)
-    result = [q.quote for q in quotes]
-    return result
+    if len(args) == 1:
+        tag = args[0]
+        quotes = Quotes.objects(tags__iregex=tag)
+        result = [q.quote for q in quotes]
+        return result
+    else:
+        return "Please write one tag you want to find the quote for"
 
 
 def find_by_tags(args):
-    result = []
-    for el in args:
-        tags = el.split(",")
-        for tag in tags:
-            quotes = Quotes.objects(tags__iregex=tag)
-            quote_by_tag = [q.quote for q in quotes]
-            result.append(quote_by_tag[0])
-        return result
+    try:
+        result = []
+        for el in args:
+            tags = el.split(",")
+            for tag in tags:
+                quotes = Quotes.objects(tags__iregex=tag)
+                quote_by_tag = [q.quote for q in quotes]
+                quote_by_tag_value = quote_by_tag[0]
+                if quote_by_tag_value not in result:
+                    result.append(quote_by_tag_value)
+            return result
+    except IndexError as err:
+        return None
 
 
 def find_by_author(args):
@@ -51,6 +58,8 @@ def main():
             print(find_by_tag(args))
         elif command == "tags:":
             print(find_by_tags(args))
+        else:
+            print("Invalid command")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,6 @@
-from mongoengine import EmbeddedDocument, Document, CASCADE
+from mongoengine import Document, CASCADE
 from mongoengine.fields import (
     ReferenceField,
-    DateTimeField,
-    EmbeddedDocumentField,
     ListField,
     StringField,
 )
