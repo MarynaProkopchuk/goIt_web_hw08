@@ -13,20 +13,19 @@ def main():
     )
     channel = connection.channel()
 
-    channel.queue_declare(queue="hw_08_queue", durable=True)
-
     def callback(ch, method, properties, body):
         message = json.loads(body.decode())
-        print(f" [x] Received {message}")
+        print(f"Received {message}")
         time.sleep(0.5)
-        print(f" [x] Completed {method.delivery_tag} task")
+        print(f"Completed {method.delivery_tag} task")
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(queue="hw_08_queue", on_message_callback=callback)
 
-    print(" [*] Waiting for messages. To exit press CTRL+C")
+    print("Waiting for messages. To exit press CTRL+C")
     channel.start_consuming()
+    channel.queue_declare(queue="hw_08_queue", durable=True)
 
 
 if __name__ == "__main__":

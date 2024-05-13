@@ -7,12 +7,12 @@ import connect
 def insert_authors():
     with open("authors.json", "r", encoding="utf-8") as file:
         data = json.load(file)
-        for x in data:
+        for d in data:
             author = Authors(
-                fullname=x["fullname"],
-                born_date=x["born_date"],
-                born_location=x["born_location"],
-                description=x["description"],
+                fullname=d["fullname"],
+                born_date=d["born_date"],
+                born_location=d["born_location"],
+                description=d["description"],
             )
             author.save()
         return author
@@ -21,12 +21,12 @@ def insert_authors():
 def insert_quotes():
     with open("quotes.json", "r", encoding="utf-8") as file:
         data = json.load(file)
-        for x in data:
-            author, *_ = Authors.objects(fullname=x.get("author"))
+        for d in data:
+            author, *_ = Authors.objects(fullname=d.get("author"))
             quote = Quotes(
-                tags=x["tags"],
+                tags=d["tags"],
                 author=author,
-                quote=x["quote"],
+                quote=d["quote"],
             )
             quote.save()
         return quote
